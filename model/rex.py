@@ -224,6 +224,7 @@ class Rex(object):
             cfg.enable_stream(rs.stream.pose)
             self.pipe.start(cfg)
             self.ResetPose()
+            input("Kindly put pupper on the initial position and press Enter...")
         self._step_counter = 0
         self.GetPoseData()
         self.ReceiveObservation()
@@ -279,10 +280,9 @@ class Rex(object):
         y = data.rotation.x
         z = -data.rotation.y
 
-        pitch =  -math.asin(2.0 * (x*z - w*y)) * 180.0 / math.pi;
-        roll  =  math.atan2(2.0 * (w*x + y*z), w*w - x*x - y*y + z*z) * 180.0 / math.pi;
-        yaw   =  math.atan2(2.0 * (w*z + x*y), w*w + x*x - y*y - z*z) * 180.0 / math.pi;
-        # return np.asarray([0.0, 0.0, 0.0])
+        pitch =  -math.asin(2.0 * (x*z - w*y))
+        roll  =  math.atan2(2.0 * (w*x + y*z), w*w - x*x - y*y + z*z)
+        yaw   =  math.atan2(2.0 * (w*z + x*y), w*w + x*x - y*y - z*z)
         return np.asarray([roll, pitch, yaw])
 
     def GetBaseOrientation(self):

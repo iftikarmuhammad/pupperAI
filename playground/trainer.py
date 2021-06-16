@@ -142,5 +142,5 @@ class Trainer:
         full_logdir = os.path.expanduser(self.log_dir)
         config = AttrDict(getattr(configs, self.env_id)())
         config = utility.save_config(config, full_logdir)
-        for score in self._train(config, True):
+        for score in self._train(config, False):
             logging.info('Score {}.'.format(score))
