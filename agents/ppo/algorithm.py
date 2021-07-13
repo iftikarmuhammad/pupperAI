@@ -100,11 +100,11 @@ class PPOAlgorithm(object):
         fine_tuning = True
 
         if fine_tuning:
-          gym_dir_path = '/home/iftikar/miniconda3/envs/wnl_pupper/lib/python3.7/site-packages/rex_gym'
-          policy_dir = os.path.join(gym_dir_path, 'policies/walking/alternating_legs/pupper-mix-pc-2m')
-          checkpoint = os.path.join(policy_dir, 'model.ckpt-4000000')
+          gym_dir_path = '/home/pi/pupper_player'
+          policy_dir = os.path.join(gym_dir_path, 'policies/walking/alternating_legs/pupper-mix-4dim-5m')
+          checkpoint = os.path.join(policy_dir, 'model.ckpt-10000000')
 
-          action_dim = 12
+          action_dim = 4
           action_high = np.array([0.25] * action_dim, dtype=np.float32)
           action_low = -action_high
           action_space = (action_low, action_high)
