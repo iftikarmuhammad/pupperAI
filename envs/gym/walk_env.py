@@ -119,20 +119,20 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
     def _signal(self, t):
         initial_pose = self.rex.initial_pose
         period = STEP_PERIOD
-        l_extension = 0.225 * math.cos(3 * math.pi / period * t)
+        l_extension = 0.125 * math.cos(3 * math.pi / period * t)
         l_swing = -l_extension
-        extension = 0.225 * math.cos(3 * math.pi / period * t)
+        extension = 0.25 * math.cos(3 * math.pi / period * t)
         swing = -extension
         pose = np.array([0, l_extension, extension,
                          0, l_swing, swing,
                          0, l_swing, swing,
                          0, l_extension, extension])
-        4dim_act = np.array([0, action[0], action[1],
+        act = np.array([0, action[0], action[1],
                 0, action[2], action[3],
                 0, action[2], action[3],
                 0, action[0], action[1]])
         ol_signal = initial_pose + pose
-        mix_signal = ol_signal + 4dim_act
+        mix_signal = ol_signal + act
         #return initial_pose
         return ol_signal
         #return mix_signal
