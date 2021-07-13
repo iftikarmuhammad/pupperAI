@@ -181,7 +181,7 @@ class Rex(object):
             self.pi_board = pigpio.pi()
             self.servo_params = ServoParams()
             self.pwm_params = PWMParams()
-            initialize_pwm(pi_board, pwm_params)
+            initialize_pwm(self.pi_board, self.pwm_params)
 
             self.pipe = rs.pipeline()
             cfg = rs.config()
