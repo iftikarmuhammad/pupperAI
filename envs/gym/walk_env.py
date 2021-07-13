@@ -28,7 +28,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
 
     def __init__(self,
                  urdf_version=None,
-                 control_time_step=0.01,
+                 control_time_step=0.005,
                  action_repeat=1,
                  control_latency=0,
                  pd_latency=0,
@@ -86,7 +86,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
                              control_time_step=control_time_step,
                              action_repeat=action_repeat)
 
-        self.action_dim = 12
+        self.action_dim = 4
         self.action_high = np.array([0.25] * self.action_dim)
         self.action_space = spaces.Box(-self.action_high, self.action_high)
         self.action_weight = 1.0
@@ -127,10 +127,15 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
                          0, l_swing, swing,
                          0, l_swing, swing,
                          0, l_extension, extension])
-
-        signal = initial_pose + pose
-        # signal = initial_pose 
-        return signal
+        4dim_act = np.array([0, action[0], action[1],
+                0, action[2], action[3],
+                0, action[2], action[3],
+                0, action[0], action[1]])
+        ol_signal = initial_pose + pose
+        mix_signal = ol_signal + 4dim_act
+        #return initial_pose
+        return ol_signal
+        #return mix_signal
 
     def _transform_action_to_motor_command(self, action):
         # print('BEFORE : ' + str(action))

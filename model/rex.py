@@ -2,6 +2,7 @@ import collections
 import copy
 import math
 import re
+import pigpio
 import numpy as np
 from datetime import datetime
 from . import motor
@@ -9,6 +10,7 @@ from ..util import pybullet_data
 import pyrealsense2.pyrealsense2 as rs
 
 from rex_gym.rpi.hardware_interface import send_servo_commands, initialize_pwm
+from rex_gym.rpi.pupper_config import ServoParams, PWMParams
 
 INIT_POSITION = [0, 0, 0.21]
 INIT_RACK_POSITION = [0, 0, 1]
@@ -19,48 +21,11 @@ class Rex(object):
     half_pi = math.pi / 2.0
     knee_angle = -2.1834
     INIT_POSES = {
-        # 'stand_low': np.array([
-        #     0.13, -0.851, 1.451,
-        #     -0.13, -0.851, 1.451,
-        #     0.13, -0.851, 1.451,
-        #     -0.13, -0.851, 1.451
-        # ]),
-        # 'stand_low': np.array([ # forward final
-        #     0.15192765, -0.7552236, 1.88472,
-        #     -0.15192765, -0.7552236, 1.88472,
-        #     0.15192765, -0.7552236, 1.88472,
-        #     -0.15192765, -0.7552236, 1.88472
-        # ]),
         'stand_low': np.array([
-            0.15, -0.74, 1.8,
-            -0.15, -0.74, 1.8,
-            0.15, -0.74, 1.8,
-            -0.15, -0.74, 1.8
-        ]),
-        # 'stand_low': np.array([ # backward
-        #     0.15192765, -0.7552236, 1.5104472,
-        #     -0.15192765, -0.7552236, 1.5104472,
-        #     0.15192765, -0.7552236, 1.5104472,
-        #     -0.15192765, -0.7552236, 1.5104472
-        # ]),
-        # 'stand_low': np.array([ # normal power
-        #     0.15, -0.85, 1.75,
-        #     -0.15, -0.85, 1.75,
-        #     0.15, -0.85, 1.75,
-        #     -0.15, -0.85, 1.75
-        # ]),
-        'stand_high': np.array([
-            0.15, -0.85, 1.75,
-            -0.15, -0.85, 1.75,
-            0.15, -0.85, 1.75,
-            -0.15, -0.85, 1.75
-        ]),
-        'rest_position': np.array([
-            0.6, -1.1, 8,
-            -0.6, -1.1, 8,
-            0.6, -1.1, 8,
-            -0.6, -1.1, 8
-        ])
+            0.1, 0.74, -1.06,
+            -0.1, 0.74, -1.06,
+            0.1, 0.74, -1.06,
+            -0.1, 0.74, -1.06])
     }
 
     def __init__(self,
@@ -170,7 +135,7 @@ class Rex(object):
         # print('REX TS, AR : %s, %s' % (str(self.time_step), str(self._action_repeat)))
         self.GetPoseData()
         # for _ in range(self._action_repeat):
-        # self.ApplyAction(action)
+        self.ApplyAction(action)
         self.ReceiveObservation()
         self._step_counter += 1
 
@@ -213,6 +178,11 @@ class Rex(object):
             init_position = INIT_POSITION
 
         if reload_urdf:
+            self.pi_board = pigpio.pi()
+            self.servo_params = ServoParams()
+            self.pwm_params = PWMParams()
+            initialize_pwm(pi_board, pwm_params)
+
             self.pipe = rs.pipeline()
             cfg = rs.config()
             cfg.enable_stream(rs.stream.pose)
@@ -242,7 +212,7 @@ class Rex(object):
           add_constraint: Whether to add a constraint at the joints of two feet.
         """
         motor_commands = self.reshape_motor_command(self.INIT_POSES[self._pose_id])
-        # send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
+        send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
 
     def GetPoseData(self):
         frames = self.pipe.wait_for_frames()
@@ -345,8 +315,9 @@ class Rex(object):
           motor_kds: Derivative gains for the motor model. If not provided, it
             uses the default kd of the Rex for all the motors.
         """
-        motor_commands = self.ApplyMotorLimits(motor_commands)
-        # send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
+        # motor_commands = self.ApplyMotorLimits(motor_commands)
+        motor_commands = self.reshape_motor_command(motor_commands)
+        send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
 
     def GetTrueObservation(self):
         observation = []

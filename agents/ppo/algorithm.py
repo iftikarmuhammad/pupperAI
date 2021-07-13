@@ -97,7 +97,7 @@ class PPOAlgorithm(object):
         self.observation_placeholder = tf.placeholder(tf.float32, [None, observation_size],
                                                       name="Input")
 
-        fine_tuning = False
+        fine_tuning = True
 
         if fine_tuning:
           gym_dir_path = '/home/iftikar/miniconda3/envs/wnl_pupper/lib/python3.7/site-packages/rex_gym'
