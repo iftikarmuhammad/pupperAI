@@ -27,7 +27,7 @@ def default():
     # General
     algorithm = PPOAlgorithm
     num_agents = 25
-    eval_episodes = 3
+    eval_episodes = 25
     use_gpu = False
     # Network
     network = networks.ForwardGaussianPolicy
@@ -37,7 +37,7 @@ def default():
     init_mean_factor = 0.05
     init_logstd = -1
     # Optimization
-    update_every = 3
+    update_every = 25
     policy_optimizer = 'AdamOptimizer'
     value_optimizer = 'AdamOptimizer'
     update_epochs_policy = 50
