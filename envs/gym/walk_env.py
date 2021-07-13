@@ -116,7 +116,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
         #                        0, action[0], action[1]])
         return motor_pose
 
-    def _signal(self, t):
+    def _signal(self, action, t):
         initial_pose = self.rex.initial_pose
         period = STEP_PERIOD
         l_extension = 0.125 * math.cos(3 * math.pi / period * t)
@@ -150,8 +150,8 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
         #   print('Updated action weight: ', self.action_weight)
         # action = self._convert_from_leg_model(action)
         # action =  self.action_weight * action + self.os_weight * self._signal(self.rex.GetTimeSinceReset())
-        action += self._signal(self.rex.GetTimeSinceReset())
-        action = self._convert_from_leg_model(action)
+        action = self._signal(action, self.rex.GetTimeSinceReset())
+        # action = self._convert_from_leg_model(action)
         # action += initial_pose
         return action
 
