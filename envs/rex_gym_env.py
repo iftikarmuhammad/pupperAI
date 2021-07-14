@@ -396,10 +396,10 @@ class RexGymEnv(gym.Env):
         forward_reward = - current_base_position[0] + self._last_base_position[0]
         # Cap the forward reward if a cap is set.
         forward_reward = min(forward_reward, self._forward_reward_cap)  
-        # print('FORWARD : ' + str(forward_reward))
+        print('FORWARD : ' + str(forward_reward))
         # Penalty for sideways translation.
         drift_reward = -abs(current_base_position[1] - self._last_base_position[1])
-        # print('DRIFT : ' + str(drift_reward))
+        print('DRIFT : ' + str(drift_reward))
         # Penalty for sideways rotation of the body.
         rot_matrix = R.from_quat(orientation).as_matrix()
         local_up_vec = rot_matrix[2]
@@ -411,7 +411,7 @@ class RexGymEnv(gym.Env):
         weighted_objectives = [o * w for o, w in zip(objectives, self._objective_weights)]
         reward = sum(weighted_objectives)
         self._objectives.append(objectives)
-        # print('SUM REWARD : ' + str(reward))
+        print('SUM REWARD : ' + str(reward))
         return reward
 
     def get_objectives(self):
