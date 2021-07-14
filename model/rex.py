@@ -191,12 +191,13 @@ class Rex(object):
             self.pipe.start(cfg)
             self.ResetPose()
         else:
+            self.ResetPose()
+            input("Kindly put pupper on the initial position and press Enter...")
             self.pipe = rs.pipeline()
             cfg = rs.config()
             cfg.enable_stream(rs.stream.pose)
             self.pipe.start(cfg)
-            self.ResetPose()
-            input("Kindly put pupper on the initial position and press Enter...")
+
         self._step_counter = 0
         self.GetPoseData()
         self.ReceiveObservation()
