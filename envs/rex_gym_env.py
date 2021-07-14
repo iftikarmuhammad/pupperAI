@@ -393,7 +393,7 @@ class RexGymEnv(gym.Env):
         # vel = self.rex.GetBaseVelocity()
         # vel_reward = -vel[0]
         # forward direction
-        forward_reward = - current_base_position[0] + self._last_base_position[0]
+        forward_reward = current_base_position[0] - self._last_base_position[0]
         # Cap the forward reward if a cap is set.
         forward_reward = min(forward_reward, self._forward_reward_cap)  
         print('FORWARD : ' + str(forward_reward))
