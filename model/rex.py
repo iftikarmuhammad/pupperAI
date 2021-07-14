@@ -4,6 +4,7 @@ import math
 import re
 import pigpio
 import numpy as np
+import time
 from datetime import datetime
 from . import motor
 from ..util import pybullet_data
@@ -138,6 +139,7 @@ class Rex(object):
         self.ApplyAction(action)
         self.ReceiveObservation()
         self._step_counter += 1
+        time.sleep(0.005)
 
     def Terminate(self):
         pass
@@ -227,6 +229,8 @@ class Rex(object):
           The position of Rex's base.
         """
         position = self.data.translation
+        print("FORWARD COOR : " + str(-position.z))
+        print("SIDEWAY COOR : " + str(position.x))
         return np.asarray([-position.z, position.x, position.y])
 
     def GetBaseVelocity(self):
