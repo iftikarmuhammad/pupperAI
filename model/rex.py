@@ -139,7 +139,7 @@ class Rex(object):
         self.ApplyAction(action)
         self.ReceiveObservation()
         self._step_counter += 1
-        time.sleep(0.005)
+        time.sleep(0.006)
 
     def Terminate(self):
         pass
