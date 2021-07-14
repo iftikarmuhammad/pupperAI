@@ -411,7 +411,7 @@ class RexGymEnv(gym.Env):
         weighted_objectives = [o * w for o, w in zip(objectives, self._objective_weights)]
         reward = sum(weighted_objectives)
         self._objectives.append(objectives)
-        print('SUM REWARD : ' + str(reward))
+        #print('SUM REWARD : ' + str(reward))
         return reward
 
     def get_objectives(self):
