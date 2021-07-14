@@ -227,7 +227,7 @@ class Rex(object):
           The position of Rex's base.
         """
         position = self.data.translation
-        return np.asarray([position.x, position.y, position.z])
+        return np.asarray([-position.z, position.x, position.y])
 
     def GetBaseVelocity(self):
         """Get the position of Rex's base.
