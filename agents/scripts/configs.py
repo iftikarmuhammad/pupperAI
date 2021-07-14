@@ -69,7 +69,7 @@ def walk():
     # Environment
     env = 'RexWalk-v0'
     max_length = 1000
-    steps = 250e3  # 8M
+    steps = 25e3  # 8M
     return locals()
 
 
