@@ -279,6 +279,7 @@ class RexGymEnv(gym.Env):
         self._last_base_position = [0, 0, 0]
         self._last_base_orientation = [0, 0, 0, 1]
         self._objectives = []
+        self.dummy_obs = [self._get_observation()]
         return self._get_observation()
 
     def seed(self, seed=None):
