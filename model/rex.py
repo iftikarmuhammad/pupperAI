@@ -135,11 +135,11 @@ class Rex(object):
     def Step(self, action):
         # print('REX TS, AR : %s, %s' % (str(self.time_step), str(self._action_repeat)))
         self.GetPoseData()
-        for _ in range(self._action_repeat):
-            self.ApplyAction(action)
-            self.ReceiveObservation()
-            self._step_counter += 1
-        # time.sleep(0.006)
+        # for _ in range(self._action_repeat):
+        self.ApplyAction(action)
+        self.ReceiveObservation()
+        self._step_counter += 1
+        time.sleep(0.006)
 
     def Terminate(self):
         pass
