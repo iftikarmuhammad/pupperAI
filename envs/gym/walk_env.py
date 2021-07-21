@@ -29,7 +29,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
     def __init__(self,
                  urdf_version=None,
                  control_time_step=0.005,
-                 action_repeat=5,
+                 action_repeat=1,
                  control_latency=0,
                  pd_latency=0,
                  on_rack=False,

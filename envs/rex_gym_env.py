@@ -8,6 +8,7 @@ import numpy as np
 import pybullet
 import pybullet_data
 import yaml
+import time
 
 from gym import spaces
 from gym.utils import seeding
@@ -302,15 +303,6 @@ class RexGymEnv(gym.Env):
         """
         self._last_base_position = self.rex.GetBasePosition()
         self._last_base_orientation = self.rex.GetBaseOrientation()
-        if self._is_render:
-            # Sleep, otherwise the computation takes less time than real time,
-            # which will make the visualization like a fast-forward video.
-            time_spent = time.time() - self._last_frame_time
-            self._last_frame_time = time.time()
-            time_to_sleep = self.control_time_step - time_spent
-            if time_to_sleep > 0:
-                time.sleep(time_to_sleep)
-            base_pos = self.rex.GetBasePosition()
 
         for env_randomizer in self._env_randomizers:
             env_randomizer.randomize_step(self)
@@ -328,6 +320,7 @@ class RexGymEnv(gym.Env):
         self._global_step_counter += 1
         if done:
             self.rex.Terminate()
+        time.sleep(0.006)
         return np.array(self._get_observation()), reward, done, {'action': action}
 
     def get_rex_motor_angles(self):
