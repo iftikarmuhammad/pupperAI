@@ -329,7 +329,7 @@ class RexGymEnv(gym.Env):
         self._global_step_counter += 1
         if done:
             self.rex.Terminate()
-        time.sleep(0.005)
+        # time.sleep(0.005)
         self.dummy_obs = np.concatenate((self.dummy_obs, [obs]), axis=0)
         return obs, reward, done, {'action': action}
         # return np.array(self._get_observation()), reward, done, {'action': action}

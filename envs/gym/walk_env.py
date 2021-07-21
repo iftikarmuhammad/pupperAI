@@ -29,7 +29,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
     def __init__(self,
                  urdf_version=None,
                  control_time_step=0.005,
-                 action_repeat=1,
+                 action_repeat=5,
                  control_latency=0,
                  pd_latency=0,
                  on_rack=False,
@@ -110,10 +110,6 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
                 motor_pose[3 * i] = -0.15
             motor_pose[3 * i + 1] = action[3 * i + 1]
             motor_pose[3 * i + 2] = action[3 * i + 2]
-        # motor_pose = np.array([0, action[0], action[1],
-        #                        0, action[2], action[3],
-        #                        0, action[2], action[3],
-        #                        0, action[0], action[1]])
         return motor_pose
 
     def _signal(self, action, t):
@@ -138,21 +134,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
         return mix_signal
 
     def _transform_action_to_motor_command(self, action):
-        # print('BEFORE : ' + str(action))
-        # initial_pose = self.rex.initial_pose
-        # print('AFTER : ' + str(action))
-        # if self._global_step_counter != 0 and self._global_step_counter % 5e4 == 0:
-        #   if self.action_weight < 1.0:
-        #     self.action_weight += 0.2
-        #     self.os_weight -= self.action_weight
-        #   print('Current global step : ', self._global_step_counter)
-        #   print('Updated open signal weight : ', self.os_weight)
-        #   print('Updated action weight: ', self.action_weight)
-        # action = self._convert_from_leg_model(action)
-        # action =  self.action_weight * action + self.os_weight * self._signal(self.rex.GetTimeSinceReset())
         action = self._signal(action, self.rex.GetTimeSinceReset())
-        # action = self._convert_from_leg_model(action)
-        # action += initial_pose
         return action
 
     def is_fallen(self):
@@ -204,7 +186,8 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
     """
         upper_bound = np.zeros(self._get_observation_dimension())
         upper_bound[0:2] = 2 * math.pi  # Roll, pitch, yaw of the base.
-        upper_bound[2:4] = 2 * math.pi / self._time_step  # Roll, pitch, yaw rate.
+        upper_bound[2:4] = 2 * math.pi / 0.005
+        # upper_bound[2:4] = 2 * math.pi / self._time_step  # Roll, pitch, yaw rate.
         print("TE WALK : " + str(self._time_step))
         return upper_bound
 
