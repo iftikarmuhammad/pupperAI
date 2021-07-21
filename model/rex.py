@@ -322,7 +322,7 @@ class Rex(object):
         """
         # motor_commands = self.ApplyMotorLimits(motor_commands)
         motor_commands = self.reshape_motor_command(motor_commands)
-        #send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
+        # send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
 
     def GetTrueObservation(self):
         observation = []

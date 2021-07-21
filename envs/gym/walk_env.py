@@ -88,8 +88,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
 
         self.action_dim = 4
         self.action_high = np.array([0.25] * self.action_dim)
-        self.action_space = (-self.action_high, self.action_high)
-        # self.action_space = spaces.Box(-self.action_high, self.action_high)
+        self.action_space = spaces.Box(-self.action_high, self.action_high)
         self.action_weight = 1.0
         self._cam_dist = 1.0
         self._cam_yaw = 30

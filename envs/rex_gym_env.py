@@ -219,6 +219,7 @@ class RexGymEnv(gym.Env):
         self.goal_reached = False
 
         self.dummy_obs = []
+        self.action_out = [np.zeros(12)]
         self.start = time.time()
         self.i = 0
 
@@ -311,7 +312,9 @@ class RexGymEnv(gym.Env):
             env_randomizer.randomize_step(self)
         if time.time() - self.start >= 30:
             with open('pupper_train_obs.npy', 'wb') as f:
-               np.save(f, self.dummy_obs)
+                np.save(f, self.dummy_obs)
+            with open('pupper_train_act.npy', 'wb') as f:
+                np.save(f, self.action_out)
         if self.i == 0:
             self.i += 1
             self.dummy_obs = [self._get_observation()]
@@ -330,6 +333,7 @@ class RexGymEnv(gym.Env):
         if done:
             self.rex.Terminate()
         # time.sleep(0.005)
+        self.action_out = np.concatenate((action_out, action), axis=0)
         self.dummy_obs = np.concatenate((self.dummy_obs, [obs]), axis=0)
         return obs, reward, done, {'action': action}
         # return np.array(self._get_observation()), reward, done, {'action': action}
