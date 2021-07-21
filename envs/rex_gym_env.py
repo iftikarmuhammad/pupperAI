@@ -220,6 +220,7 @@ class RexGymEnv(gym.Env):
 
         self.dummy_obs = []
         self.start = time.time()
+        self.i = 0
 
         data = dict(
           distance_w = distance_weight,
@@ -279,7 +280,6 @@ class RexGymEnv(gym.Env):
         self._last_base_position = [0, 0, 0]
         self._last_base_orientation = [0, 0, 0, 1]
         self._objectives = []
-        self.dummy_obs = [self._get_observation()]
         return self._get_observation()
 
     def seed(self, seed=None):
@@ -307,13 +307,14 @@ class RexGymEnv(gym.Env):
         """
         self._last_base_position = self.rex.GetBasePosition()
         self._last_base_orientation = self.rex.GetBaseOrientation()
-
         for env_randomizer in self._env_randomizers:
             env_randomizer.randomize_step(self)
         if time.time() - self.start >= 30:
-            with open('pupper_train_obs', 'wb') as f:
+            with open('pupper_train_obs.npy', 'wb') as f:
                np.save(f, self.dummy_obs)
-
+        if self.i == 0:
+            self.i += 1
+            self.dummy_obs = [self._get_observation()]
         action = self._transform_action_to_motor_command(action)
         #print('REX TS, CTS, AR : %s, %s, %s' % (str(self._time_step), str(self.control_time_step), str(self._action_repeat)))
         self.rex.Step(action)
