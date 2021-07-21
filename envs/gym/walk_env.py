@@ -134,8 +134,8 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
         ol_signal = initial_pose + pose
         mix_signal = ol_signal + act
         #return initial_pose
-        return ol_signal
-        #return mix_signal
+        #return ol_signal
+        return mix_signal
 
     def _transform_action_to_motor_command(self, action):
         # print('BEFORE : ' + str(action))
