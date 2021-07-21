@@ -311,7 +311,7 @@ class RexGymEnv(gym.Env):
             env_randomizer.randomize_step(self)
         if time.time() - self.start >= 30:
             with open('pupper_train_obs', 'wb') as f:
-               np.save(f, dummy_obs)
+               np.save(f, self.dummy_obs)
 
         action = self._transform_action_to_motor_command(action)
         #print('REX TS, CTS, AR : %s, %s, %s' % (str(self._time_step), str(self.control_time_step), str(self._action_repeat)))
@@ -328,7 +328,7 @@ class RexGymEnv(gym.Env):
         if done:
             self.rex.Terminate()
         time.sleep(0.005)
-        dummy_obs = np.concatenate((dummy_obs, [obs]), axis=0)
+        self.dummy_obs = np.concatenate((self.dummy_obs, [obs]), axis=0)
         return obs, reward, done, {'action': action}
         # return np.array(self._get_observation()), reward, done, {'action': action}
 
