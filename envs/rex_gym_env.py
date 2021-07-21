@@ -310,6 +310,7 @@ class RexGymEnv(gym.Env):
         action = self._transform_action_to_motor_command(action)
         #print('REX TS, CTS, AR : %s, %s, %s' % (str(self._time_step), str(self.control_time_step), str(self._action_repeat)))
         self.rex.Step(action)
+        obs = self._get_observation()
         reward = self._reward()
         done = self._termination()
         # @TODO fix logging
@@ -320,8 +321,9 @@ class RexGymEnv(gym.Env):
         self._global_step_counter += 1
         if done:
             self.rex.Terminate()
-        time.sleep(0.006)
-        return np.array(self._get_observation()), reward, done, {'action': action}
+        time.sleep(0.005)
+        return obs, reward, done, {'action': action}
+        # return np.array(self._get_observation()), reward, done, {'action': action}
 
     def get_rex_motor_angles(self):
         """Get the rex's motor angles.
