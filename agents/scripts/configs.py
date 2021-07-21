@@ -27,7 +27,7 @@ def default():
     # General
     algorithm = PPOAlgorithm
     num_agents = 25
-    eval_episodes = 25
+    eval_episodes = 1
     use_gpu = False
     # Network
     network = networks.ForwardGaussianPolicy
