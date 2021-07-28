@@ -219,7 +219,7 @@ class RexGymEnv(gym.Env):
         self.goal_reached = False
 
         self.dummy_obs = []
-        self.action_out = [np.zeros(12)]
+        self.action_out = [np.zeros(4)]
         self.start = time.time()
         self.i = 0
 
@@ -318,6 +318,7 @@ class RexGymEnv(gym.Env):
         if self.i == 0:
             self.i += 1
             self.dummy_obs = [self._get_observation()]
+        self.action_out = np.concatenate((self.action_out, [action]), axis=0)
         action = self._transform_action_to_motor_command(action)
         #print('REX TS, CTS, AR : %s, %s, %s' % (str(self._time_step), str(self.control_time_step), str(self._action_repeat)))
         self.rex.Step(action)
@@ -333,7 +334,7 @@ class RexGymEnv(gym.Env):
         if done:
             self.rex.Terminate()
         # time.sleep(0.005)
-        self.action_out = np.concatenate((action_out, action), axis=0)
+        # self.action_out = np.concatenate((self.action_out, [action]), axis=0)
         self.dummy_obs = np.concatenate((self.dummy_obs, [obs]), axis=0)
         return obs, reward, done, {'action': action}
         # return np.array(self._get_observation()), reward, done, {'action': action}
