@@ -5,8 +5,6 @@ import math
 import time
 import gym
 import numpy as np
-import pybullet
-import pybullet_data
 import yaml
 import time
 

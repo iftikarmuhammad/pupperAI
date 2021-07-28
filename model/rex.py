@@ -7,7 +7,6 @@ import numpy as np
 import time
 from datetime import datetime
 from . import motor
-from ..util import pybullet_data
 import pyrealsense2.pyrealsense2 as rs
 
 from rex_gym.rpi.hardware_interface import send_servo_commands, initialize_pwm
