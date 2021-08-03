@@ -272,8 +272,8 @@ class RexGymEnv(gym.Env):
                        reset_time=reset_duration)
 
         # Loop over all env randomizers.
-        for env_randomizer in self._env_randomizers:
-            env_randomizer.randomize_env(self)
+        # for env_randomizer in self._env_randomizers:
+        #     env_randomizer.randomize_env(self)
 
         self._env_step_counter = 0
         self._last_base_position = [0, 0, 0]
@@ -306,8 +306,8 @@ class RexGymEnv(gym.Env):
         """
         self._last_base_position = self.rex.GetBasePosition()
         self._last_base_orientation = self.rex.GetBaseOrientation()
-        for env_randomizer in self._env_randomizers:
-            env_randomizer.randomize_step(self)
+        # for env_randomizer in self._env_randomizers:
+        #     env_randomizer.randomize_step(self)
         if time.time() - self.start >= 30:
             with open('pupper_train_obs_tfs.npy', 'wb') as f:
                 np.save(f, self.dummy_obs)

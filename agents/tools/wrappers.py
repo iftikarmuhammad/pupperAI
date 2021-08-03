@@ -68,26 +68,26 @@ class ActionRepeat(object):
         return observ, total_reward, done, info
 
 
-class RandomStart(object):
-    """Perform random number of random actions at the start of the episode."""
+# class RandomStart(object):
+#     """Perform random number of random actions at the start of the episode."""
 
-    def __init__(self, env, max_steps):
-        self._env = env
-        self._max_steps = max_steps
+#     def __init__(self, env, max_steps):
+#         self._env = env
+#         self._max_steps = max_steps
 
-    def __getattr__(self, name):
-        return getattr(self._env, name)
+#     def __getattr__(self, name):
+#         return getattr(self._env, name)
 
-    def reset(self):
-        observ = self._env.reset()
-        random_steps = np.random.randint(0, self._max_steps)
-        for _ in range(random_steps):
-            action = self._env.action_space.sample()
-            observ, unused_reward, done, unused_info = self._env.step(action)
-            if done:
-                tf.logging.warning('Episode ended during random start.')
-                return self.reset()
-        return observ
+#     def reset(self):
+#         observ = self._env.reset()
+#         random_steps = np.random.randint(0, self._max_steps)
+#         for _ in range(random_steps):
+#             action = self._env.action_space.sample()
+#             observ, unused_reward, done, unused_info = self._env.step(action)
+#             if done:
+#                 tf.logging.warning('Episode ended during random start.')
+#                 return self.reset()
+#         return observ
 
 
 class FrameHistory(object):
