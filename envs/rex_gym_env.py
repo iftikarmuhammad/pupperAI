@@ -13,7 +13,6 @@ from gym.utils import seeding
 from scipy.spatial.transform import Rotation as R
 
 from ..model import rex, motor
-from ..util import bullet_client
 from ..util import lie_algebra as LA
 
 NUM_MOTORS = 12
