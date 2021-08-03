@@ -97,7 +97,7 @@ class PPOAlgorithm(object):
         self.observation_placeholder = tf.placeholder(tf.float32, [None, observation_size],
                                                       name="Input")
 
-        fine_tuning = True
+        fine_tuning = False
 
         if fine_tuning:
           gym_dir_path = '/home/pi/pupper_player'

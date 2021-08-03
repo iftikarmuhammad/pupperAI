@@ -309,9 +309,9 @@ class RexGymEnv(gym.Env):
         for env_randomizer in self._env_randomizers:
             env_randomizer.randomize_step(self)
         if time.time() - self.start >= 30:
-            with open('pupper_train_obs.npy', 'wb') as f:
+            with open('pupper_train_obs_tfs.npy', 'wb') as f:
                 np.save(f, self.dummy_obs)
-            with open('pupper_train_act.npy', 'wb') as f:
+            with open('pupper_train_act_tfs.npy', 'wb') as f:
                 np.save(f, self.action_out)
         if self.i == 0:
             self.i += 1

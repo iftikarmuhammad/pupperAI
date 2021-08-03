@@ -133,9 +133,10 @@ class Rex(object):
 
     def Step(self, action):
         # print('REX TS, AR : %s, %s' % (str(self.time_step), str(self._action_repeat)))
-        self.GetPoseData()
+        # self.GetPoseData()
         # for _ in range(self._action_repeat):
         self.ApplyAction(action)
+        self.GetPoseData()
         self.ReceiveObservation()
         self._step_counter += 1
         time.sleep(0.006)
@@ -182,7 +183,7 @@ class Rex(object):
             self.pi_board = pigpio.pi()
             self.servo_params = ServoParams()
             self.pwm_params = PWMParams()
-            initialize_pwm(self.pi_board, self.pwm_params)
+            #initialize_pwm(self.pi_board, self.pwm_params)
 
             self.pipe = rs.pipeline()
             cfg = rs.config()
@@ -191,7 +192,7 @@ class Rex(object):
             self.ResetPose()
         else:
             self.ResetPose()
-            input("Kindly put pupper on the initial position and press Enter...")
+            #input("Kindly put pupper on the initial position and press Enter...")
             self.pipe = rs.pipeline()
             cfg = rs.config()
             cfg.enable_stream(rs.stream.pose)
@@ -214,7 +215,7 @@ class Rex(object):
           add_constraint: Whether to add a constraint at the joints of two feet.
         """
         motor_commands = self.reshape_motor_command(self.INIT_POSES[self._pose_id])
-        send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
+        #send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
 
     def GetPoseData(self):
         frames = self.pipe.wait_for_frames()
@@ -229,8 +230,8 @@ class Rex(object):
           The position of Rex's base.
         """
         position = self.data.translation
-        print("FORWARD COOR : " + str(-position.z))
-        print("SIDEWAY COOR : " + str(position.x))
+        #print("FORWARD COOR : " + str(-position.z))
+        #print("SIDEWAY COOR : " + str(position.x))
         return np.asarray([-position.z, position.x, position.y])
 
     def GetBaseVelocity(self):

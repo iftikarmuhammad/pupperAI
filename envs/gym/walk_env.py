@@ -134,6 +134,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
         return mix_signal
 
     def _transform_action_to_motor_command(self, action):
+        #print(action)
         action = self._signal(action, self.rex.GetTimeSinceReset())
         return action
 
