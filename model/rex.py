@@ -215,7 +215,7 @@ class Rex(object):
           add_constraint: Whether to add a constraint at the joints of two feet.
         """
         motor_commands = self.reshape_motor_command(self.INIT_POSES[self._pose_id])
-        #send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
+        send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
 
     def GetPoseData(self):
         frames = self.pipe.wait_for_frames()
@@ -322,7 +322,7 @@ class Rex(object):
         """
         # motor_commands = self.ApplyMotorLimits(motor_commands)
         motor_commands = self.reshape_motor_command(motor_commands)
-        # send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
+        send_servo_commands(self.pi_board, self.pwm_params, self.servo_params, motor_commands)
 
     def GetTrueObservation(self):
         observation = []
