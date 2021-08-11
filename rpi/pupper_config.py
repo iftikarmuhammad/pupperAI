@@ -2,9 +2,13 @@ import numpy as np
 
 MICROS_PER_RAD = 10.0 * 180.0 / np.pi  # Must be calibrated
 #NEUTRAL_ANGLE_DEGREES = np.array([[5, 3.5, -3, 12], [65.5, 47, 34, 53.5], [-29, -20, -35, -43]])
-NEUTRAL_ANGLE_DEGREES = np.array( [[ 21, -15,  48,  17],
- [ 24,  75,  28,  53],
- [-14, -21, -74, -22]])
+# NEUTRAL_ANGLE_DEGREES = np.array( [[ 21, -15,  48,  17],
+#  [ 24,  75,  28,  53],
+#  [-14, -21, -74, -22]])
+
+NEUTRAL_ANGLE_DEGREES = np.array([[ 21, -15,  48,  18]
+ [ 24,  79,  28,  54]
+ [-14, -21, -79, -23]])
 
 class PWMParams:
     def __init__(self):

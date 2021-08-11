@@ -216,7 +216,7 @@ class RexGymEnv(gym.Env):
         self.goal_reached = False
 
         self.dummy_obs = []
-        self.action_out = [np.zeros(4)]
+        self.action_out = [np.zeros(8)]
         self.start = time.time()
         self.i = 0
 
@@ -307,7 +307,7 @@ class RexGymEnv(gym.Env):
         self._last_base_orientation = self.rex.GetBaseOrientation()
         # for env_randomizer in self._env_randomizers:
         #     env_randomizer.randomize_step(self)
-        if time.time() - self.start >= 30:
+        if time.time() - self.start == 30:
             with open('pupper_train_obs_tfs.npy', 'wb') as f:
                 np.save(f, self.dummy_obs)
             with open('pupper_train_act_tfs.npy', 'wb') as f:
