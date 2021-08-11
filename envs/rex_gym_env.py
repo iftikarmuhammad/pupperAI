@@ -163,7 +163,7 @@ class RexGymEnv(gym.Env):
         self._observation = []
         self._true_observation = []
         self._objectives = []
-        self._objective_weights = [distance_weight, energy_weight, drift_weight, shake_weight]
+        self._objective_weights = [distance_weight, drift_weight, shake_weight]
         self._env_step_counter = 0
         self._global_step_counter = 0
         self._num_steps_to_log = num_steps_to_log
@@ -322,6 +322,7 @@ class RexGymEnv(gym.Env):
         obs = self._get_observation()
         reward = self._reward()
         done = self._termination()
+        print('REWARD : ' + str(reward))
         # @TODO fix logging
         # if self._log_path is not None:
         #     rex_logging.update_episode_proto(self._episode_proto, self.rex, action,
@@ -416,6 +417,7 @@ class RexGymEnv(gym.Env):
         objectives = [forward_reward, drift_reward, shake_reward]
         weighted_objectives = [o * w for o, w in zip(objectives, self._objective_weights)]
         reward = sum(weighted_objectives)
+        #print(weighted_objectives)
         self._objectives.append(objectives)
         #print('SUM REWARD : ' + str(reward))
         return reward
