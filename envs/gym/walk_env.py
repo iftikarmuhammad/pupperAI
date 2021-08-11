@@ -11,7 +11,7 @@ from .. import rex_gym_env
 DESIRED_PITCH = 0
 NUM_LEGS = 4
 NUM_MOTORS = 3 * NUM_LEGS
-STEP_PERIOD = 1.0 / 4.5
+STEP_PERIOD = 1.0 / 8
 
 
 class RexWalkEnv(rex_gym_env.RexGymEnv):
@@ -28,7 +28,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
 
     def __init__(self,
                  urdf_version=None,
-                 control_time_step=0.005,
+                 control_time_step=0.006,
                  action_repeat=1,
                  control_latency=0,
                  pd_latency=0,
@@ -86,14 +86,9 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
                              control_time_step=control_time_step,
                              action_repeat=action_repeat)
 
-        self.action_dim = 4
+        self.action_dim = 8
         self.action_high = np.array([0.1] * self.action_dim)
         self.action_space = spaces.Box(-self.action_high, self.action_high)
-        self.action_weight = 1.0
-        self._cam_dist = 1.0
-        self._cam_yaw = 30
-        self._cam_pitch = -30
-        self.os_weight = 1.0  # open signal weight
 
     def reset(self):
         self.desired_pitch = DESIRED_PITCH
@@ -115,9 +110,9 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
     def _signal(self, action, t):
         initial_pose = self.rex.initial_pose
         period = STEP_PERIOD
-        l_extension = 0.125 * math.cos(3 * math.pi / period * t)
+        l_extension = 0.125 * math.cos(2 * math.pi / period * t)
         l_swing = -l_extension
-        extension = 0.25 * math.cos(3 * math.pi / period * t)
+        extension = 0.25 * math.cos(2 * math.pi / period * t)
         swing = -extension
         pose = np.array([0, l_extension, extension,
                          0, l_swing, swing,
@@ -125,8 +120,8 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
                          0, l_extension, extension])
         act = np.array([0, action[0], action[1],
                 0, action[2], action[3],
-                0, action[2], action[3],
-                0, action[0], action[1]])
+                0, action[4], action[5],
+                0, action[6], action[7]])
         ol_signal = initial_pose + pose
         mix_signal = ol_signal + act
         #return initial_pose
@@ -187,7 +182,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
     """
         upper_bound = np.zeros(self._get_observation_dimension())
         upper_bound[0:2] = 2 * math.pi  # Roll, pitch, yaw of the base.
-        upper_bound[2:4] = 2 * math.pi / 0.005
+        upper_bound[2:4] = 2 * math.pi / 0.006
         # upper_bound[2:4] = 2 * math.pi / self._time_step  # Roll, pitch, yaw rate.
         print("TE WALK : " + str(self._time_step))
         return upper_bound
