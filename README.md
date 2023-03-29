@@ -30,3 +30,5 @@ Robot goal is to walk as far as it can on given time.
 ### Testing Performance
 ![real](media/eval_test.png)
 ![real](media/eval_test_label.png)
+
+Deploy
